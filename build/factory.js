@@ -11554,15 +11554,13 @@
 	        options = options || {};
 	
 	        this._enabled = !!options.enabled;
-	        this._incoming = options.incoming || '../audio/incoming.ogg';
-	        this._outgoing = options.outgoing || '../audio/outgoing.ogg';
-	        this._audio = {};
+	        this.loadAudio(options);
 	
 	    }
 	
 	    AudioHelper.prototype._playSound = function(url, val, volume) {
 	
-	        if (!this._enabled) return this;
+	        if (!this._enabled || !url) return this;
 	
 	        if (!this._audio[url]) {
 	            if (val) {
@@ -11585,12 +11583,29 @@
 	
 	    };
 	
+	    AudioHelper.prototype.loadAudio = function(options) {
+	        this._incoming = options.incoming;
+	        this._outgoing = options.outgoing;
+	        this._audio = {};
+	    }
+	
+	    AudioHelper.prototype.setVolume = function(volume) {
+	        if (volume < 0) { volume = 0; }
+	        if (volume > 1) { volume = 1; }
+	        this.volume = volume;
+	        for (var url in this._audio) {
+	            if (this._audio.hasOwnProperty(url)) {
+	                this._audio[url].volume = volume;
+	            }
+	        }
+	    }
+	
 	    AudioHelper.prototype.playIncoming = function(val) {
-	        return this._playSound(this._incoming, val, 0.5);
+	        return this._playSound(this._incoming, val, (this.volume || 0.5));
 	    };
 	
 	    AudioHelper.prototype.playOutgoing = function(val) {
-	        return this._playSound(this._outgoing, val, 1);
+	        return this._playSound(this._outgoing, val, (this.volume || 1));
 	    };
 	
 	    /*--------------------------------------------------------------------------------------------------------------------*/
@@ -24230,7 +24245,7 @@
 	        },
 	        oauth: function oauth() {
 	            return new Promise(function (resolve, reject) {
-	                var redirectUri = 'https://ringcentral.github.io/ringcentral-js-widget/page/redirect.html';
+	                var redirectUri = 'https://apps.ringcentral.com/incontactwebphone/redirect.html';
 	                var url = _rcSdk.RC.sdk.platform().authUrl({
 	                    redirectUri: redirectUri
 	                });
@@ -25454,10 +25469,10 @@
 	            });
 	            // fax need have text thus can be sent
 	            // formData.append(
-	            //     'attachment',
+	            //     'attachment', 
 	            //     new File(
-	            //         [''],
-	            //         'text.txt',
+	            //         [''], 
+	            //         'text.txt', 
 	            //         { type: 'application/octet-stream' })
 	            // )
 	            // Send the fax
