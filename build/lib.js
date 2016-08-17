@@ -47,7 +47,7 @@
 
 	'use strict';
 	
-	var _w = __webpack_require__(81);
+	var _w = __webpack_require__(82);
 	
 	var _w2 = _interopRequireDefault(_w);
 	
@@ -59,7 +59,7 @@
 
 /***/ },
 
-/***/ 81:
+/***/ 82:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -68,15 +68,15 @@
 	    value: true
 	});
 	
-	var _component = __webpack_require__(82);
+	var _component = __webpack_require__(83);
 	
-	var _transition = __webpack_require__(86);
+	var _transition = __webpack_require__(87);
 	
-	var _index = __webpack_require__(83);
+	var _index = __webpack_require__(84);
 	
-	var _translation = __webpack_require__(87);
+	var _translation = __webpack_require__(88);
 	
-	var _insertion = __webpack_require__(90);
+	var _insertion = __webpack_require__(91);
 	
 	// function fetchWidget(file) {
 	//     return fetch(w.options.path + ensureTail(file, '.html'))
@@ -260,7 +260,7 @@
 
 /***/ },
 
-/***/ 82:
+/***/ 83:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -270,11 +270,11 @@
 	});
 	exports.register = undefined;
 	
-	var _index = __webpack_require__(83);
+	var _index = __webpack_require__(84);
 	
-	var _fragment = __webpack_require__(84);
+	var _fragment = __webpack_require__(85);
 	
-	var _lifecycle = __webpack_require__(85);
+	var _lifecycle = __webpack_require__(86);
 	
 	var _lifecycle2 = _interopRequireDefault(_lifecycle);
 	
@@ -461,7 +461,7 @@
 
 /***/ },
 
-/***/ 83:
+/***/ 84:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -566,7 +566,7 @@
 
 /***/ },
 
-/***/ 84:
+/***/ 85:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -578,7 +578,7 @@
 	exports.generateDocument = generateDocument;
 	exports.getDocumentRoot = getDocumentRoot;
 	
-	var _index = __webpack_require__(83);
+	var _index = __webpack_require__(84);
 	
 	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 	
@@ -646,7 +646,7 @@
 
 /***/ },
 
-/***/ 85:
+/***/ 86:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -693,7 +693,7 @@
 
 /***/ },
 
-/***/ 86:
+/***/ 87:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -756,7 +756,7 @@
 
 /***/ },
 
-/***/ 87:
+/***/ 88:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -767,7 +767,7 @@
 	exports.loadLocale = loadLocale;
 	exports.translate = translate;
 	
-	var _nodePolyglot = __webpack_require__(88);
+	var _nodePolyglot = __webpack_require__(89);
 	
 	var _nodePolyglot2 = _interopRequireDefault(_nodePolyglot);
 	
@@ -790,17 +790,17 @@
 
 /***/ },
 
-/***/ 88:
+/***/ 89:
 /***/ function(module, exports, __webpack_require__) {
 
 	// Added for convenience in the Node environment.
 	// The meat and potatoes exist in ./lib/polyglot.js.
-	module.exports = __webpack_require__(89);
+	module.exports = __webpack_require__(90);
 
 
 /***/ },
 
-/***/ 89:
+/***/ 90:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;//     (c) 2012 Airbnb, Inc.
@@ -1150,7 +1150,7 @@
 
 /***/ },
 
-/***/ 90:
+/***/ 91:
 /***/ function(module, exports) {
 
 	'use strict';

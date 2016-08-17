@@ -5,9 +5,11 @@
             <img class='logo' src="./ringcentral-logo.svg">
         </div>
         <div class='rc-panel__content'>
+            <button class='logout' data-info='logout'>log out</button>
             <p data-info='waiting' class='waiting' hidden>
                 Ready to receive calls
             </p>
+            <input id='auto-receive' data-info='auto' type="checkbox"><label for='auto-receive'> auto receive call</label>
         </div>
         <div id='call-panel' class='overlap'></div>
         <div id='call-panel-incoming' class='overlap'></div>
@@ -39,55 +41,83 @@ w.register(function() {
                     actions: factory.create('auth-panel', {
                         login: {
                             after: function() {
-                                phone.dom['auth-panel'].parentNode.removeChild(phone.dom['auth-panel'])
+                                phone.dom['auth-panel'].hidden = true
                                 this.unmount()
                                 phone.dom.waiting.hidden = false
                                 phone.dom['main-panel'].hidden = false
-                                webPhone(null, {
+                                var incoming = webPhone(null, {
                                     width: phone.data.width,
                                     height: phone.data.height
                                 }, phone)
+                                this.dom.auto.addEventListener('click', () => {
+                                    console.log(this.dom.auto)
+                                    console.log(this.dom.auto.checked)
+                                    incoming.auto(this.dom.auto.checked)
+                                })
                                 phone.props.ee.trigger('loggedin')
                             }
                         }
                     })
                 })
+                this.dom['logout'].addEventListener('click', (event) => {
+                    this.logout()
+                })
                 authPanel.mount(this.dom['auth-panel'])
-                // this.checkLogin()
-                // .then(loggedin => {
-                //     if (loggedin) {
-                //         this.dom['main-panel'].hidden = false
-                //         this.dom.waiting.hidden = false
-                //         this.dom['auth-panel'].parentNode.removeChild(this.dom['auth-panel'])
-                //         webPhone(null, {
-                //             width: this.data.width,
-                //             height: this.data.height
-                //         }, phone)
-                //         this.props.ee.trigger('ready')
-                //     } else {
-                //         var authPanel = w('auth-panel', {
-                //             data: {
-                //                 oauth: true
-                //             },
-                //             actions: factory.create('auth-panel', {
-                //                 login: {
-                //                     after: function() {
-                //                         phone.dom['auth-panel'].parentNode.removeChild(phone.dom['auth-panel'])
-                //                         this.unmount()
-                //                         phone.dom.waiting.hidden = false
-                //                         phone.dom['main-panel'].hidden = false
-                //                         webPhone(null, {
-                //                             width: phone.data.width,
-                //                             height: phone.data.height
-                //                         }, phone)
-                //                     }
-                //                 }
-                //             })
-                //         })
-                //         authPanel.mount(this.dom['auth-panel'])
-                //     }
-                // })
-                // .catch(e => console.error(e))
+                this.checkLogin()
+                .then(loggedin => {
+                    console.log('check login', loggedin)
+                    if (loggedin) {
+                        phone.dom['auth-panel'].hidden = true
+                        authPanel.unmount()
+                        phone.dom.waiting.hidden = false
+                        phone.dom['main-panel'].hidden = false
+                        var incoming = webPhone(null, {
+                            width: phone.data.width,
+                            height: phone.data.height
+                        }, phone)
+                        this.dom.auto.addEventListener('click', () => {
+                            console.log(this.dom.auto)
+                            console.log(this.dom.auto.checked)
+                            incoming.auto(this.dom.auto.checked)
+                        })
+                        phone.props.ee.trigger('loggedin')
+                    } else {
+                        
+                    }
+                })
+                .catch(e => console.error(e))
+            }
+        },
+        logout: {
+            before: function() {
+                console.log('logout')
+                var authPanel = w('auth-panel', {
+                    data: {
+                        oauth: true
+                    },
+                    actions: factory.create('auth-panel', {
+                        login: {
+                            after: function() {
+                                phone.dom['auth-panel'].hidden = true
+                                this.unmount()
+                                phone.dom.waiting.hidden = false
+                                phone.dom['main-panel'].hidden = false
+                                var incoming = webPhone(null, {
+                                    width: phone.data.width,
+                                    height: phone.data.height
+                                }, phone)
+                                this.dom.auto.addEventListener('click', () => {
+                                    console.log(this.dom.auto)
+                                    console.log(this.dom.auto.checked)
+                                    incoming.auto(this.dom.auto.checked)
+                                })
+                                phone.props.ee.trigger('loggedin')
+                            }
+                        }
+                    })
+                })
+                this.dom['auth-panel'].hidden = false
+                authPanel.mount(this.dom['auth-panel'])
             }
         },
         setSize: {
@@ -118,9 +148,15 @@ var webPhone = function(data, {width, height}, phone) {
             height: height,
             remoteVideo: callPanel.props.remoteVideo,
             localVideo: callPanel.props.localVideo,
-            simple: true
+            simple: true,
+            autoReceive: false
         },
         actions: factory.create('call-panel-incoming', {
+            init: {
+                before: function() {
+                    this.props.autoReceive = false
+                }
+            },
             accept: {
                 after: function() {
                     this.unmount()
@@ -129,13 +165,26 @@ var webPhone = function(data, {width, height}, phone) {
                     callPanel.start()
                 }
             },
+            auto: {
+                before: function(flag = true) {
+                    this.props.autoReceive = flag
+                }
+            },
             mount: {
                 after: function() {
-                    phone.props.ee.trigger('incoming')
+                    if (this.props.autoReceive) {
+                        this.unmount()
+                        callPanel.setName(this.props.name)
+                        callPanel.mount('#call-panel')
+                        callPanel.start()
+                    } else {
+                        phone.props.ee.trigger('incoming')
+                    }
                 }
             }
         })
     })
+    return callPanelIncoming
 }
 </script>
 <style>
@@ -165,5 +214,14 @@ var webPhone = function(data, {width, height}, phone) {
         top: 0;
         height: 100%;
     }
-    .auth-panel {}
+    .incontact .logout {
+        position: fixed;
+        top: 5px;
+        right: 5px;
+        font-size: 9px;
+    }
+    .incontact .auth-panel {
+        position: relative;
+        z-index: 2;
+    }
 </style>

@@ -47,11 +47,11 @@
 
 	'use strict';
 	
-	var _frame = __webpack_require__(79);
+	var _frame = __webpack_require__(80);
 	
 	var _frame2 = _interopRequireDefault(_frame);
 	
-	var _oauth = __webpack_require__(80);
+	var _oauth = __webpack_require__(81);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -93,7 +93,7 @@
 
 /***/ },
 
-/***/ 78:
+/***/ 79:
 /***/ function(module, exports) {
 
 	"use strict";
@@ -114,7 +114,7 @@
 
 /***/ },
 
-/***/ 79:
+/***/ 80:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -123,7 +123,7 @@
 	    value: true
 	});
 	
-	var _actions = __webpack_require__(78);
+	var _actions = __webpack_require__(79);
 	
 	var _actions2 = _interopRequireDefault(_actions);
 	
@@ -212,7 +212,8 @@
 	    iframe.height = options.height;
 	    iframe.style.border = '0';
 	    iframe.frameborder = 0;
-	    iframe.src = IFRAME_URL + '?' + ('tag=' + options.tag + '&') + ('first-level=' + options.firstLevel + '&') + ('width=' + options.width + '&') + ('height=' + options.height + '&') + ('key=' + options.key + '&') + ('secret=' + options.secret + '&') + ('sandbox=' + (options.env === 'sandbox') + '&') + ('origin=' + window.location.origin);
+	    iframe.src = IFRAME_URL + '?' + ('tag=' + options.tag + '&') + ('first-level=' + options.firstLevel + '&') + ('width=' + options.width + '&') + ('height=' + options.height + '&') + ('key=' + options.key + '&') + ('secret=' + options.secret + '&') + ('sandbox=' + (options.env === 'sandbox') + '&') + ('origin=' + window.location.origin + '&') + ('ts=' + Date.now());
+	    iframe.name = Date.now();
 	    iframe.setAttribute('name', 'rc-iframe');
 	    if (options.dynamic != null) {
 	        target.style.display = 'none';
@@ -283,7 +284,7 @@
 
 /***/ },
 
-/***/ 80:
+/***/ 81:
 /***/ function(module, exports) {
 
 	'use strict';

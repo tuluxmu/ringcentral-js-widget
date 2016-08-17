@@ -89,7 +89,9 @@ var createIframe = function() {
                     `key=${options.key}&` +
                     `secret=${options.secret}&` +
                     `sandbox=${options.env === 'sandbox'}&` +
-                    `origin=${window.location.origin}`
+                    `origin=${window.location.origin}&` +
+                    `ts=${Date.now()}`
+    iframe.name = Date.now()
     iframe.setAttribute('name', 'rc-iframe')
     if (options.dynamic != null) {
         target.style.display = 'none'

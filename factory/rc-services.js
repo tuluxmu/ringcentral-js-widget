@@ -32,6 +32,11 @@ services['incontact'] = {
         method: function() {
             return loginService.checkLoginStatus()
         }
+    },
+    logout: {
+        method: function() {
+            return loginService.logout()
+        }
     }
 }
 services['rcPhone'] = {
@@ -424,6 +429,14 @@ services['call-panel-incoming'] = {
                             session.request.from.friendlyName.split("@")[0]
                 this.setName(name)
                 this.mount(this.props.target)
+                console.log('INCOMING', this.props.autoReceive)
+                if (this.props.autoReceive) {
+                    console.log('ACCEPT')
+                    phoneService.accept({
+                        remoteVideo: this.props.remoteVideo,
+                        localVideo: this.props.localVideo,
+                    })
+                }
                 phoneService.on('terminated', () => {
                     this.unmount()
                 })
